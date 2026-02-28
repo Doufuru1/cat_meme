@@ -21,6 +21,7 @@
             --bg-card: #16213e;
             --text-light: #f8fafc;
             --text-muted: #94a3b8;
+            --success: #22c55e;
         }
 
         body {
@@ -66,10 +67,140 @@
             50% { transform: translateY(-30px) rotate(10deg); opacity: 0.2; }
         }
 
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-logo-icon {
+            font-size: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        /* Wallet Button */
+        .wallet-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #f6851b 0%, #e2761b 100%);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(246, 133, 27, 0.3);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(246, 133, 27, 0.4);
+        }
+
+        .wallet-btn.connected {
+            background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .wallet-btn.connected:hover {
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .wallet-icon {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .wallet-address {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toast-title {
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .toast-message {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+
         /* Header */
         header {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 120px 20px 40px;
             position: relative;
             z-index: 1;
         }
@@ -461,26 +592,35 @@
             50% { transform: scale(1.2); }
         }
 
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 15px;
+            }
+
+            .nav-logo span:last-child {
+                display: none;
+            }
+
+            .wallet-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+
+            .wallet-text {
+                display: none;
+            }
+
             h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
             .logo-icon {
-                font-size: 3rem;
+                font-size: 2.5rem;
+            }
+            
+            header {
+                padding-top: 100px;
             }
             
             .meme-grid {
@@ -514,6 +654,27 @@
         <span class="paw" style="top: 60%; left: 3%; animation-delay: 4s;">🐾</span>
         <span class="paw" style="bottom: 20%; right: 15%; animation-delay: 6s;">🐾</span>
         <span class="paw" style="top: 80%; left: 20%; animation-delay: 8s;">🐾</span>
+    </div>
+
+    <!-- Navigation Bar with Wallet -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="nav-logo-icon">🐱</span>
+            <span>Cat Meme</span>
+        </div>
+        <button class="wallet-btn" id="walletBtn" onclick="connectWallet()">
+            <span class="wallet-icon">🦊</span>
+            <span class="wallet-text" id="walletText">连接钱包</span>
+        </button>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✅</span>
+        <div class="toast-content">
+            <span class="toast-title" id="toastTitle">成功</span>
+            <span class="toast-message" id="toastMessage">钱包已连接</span>
+        </div>
     </div>
 
     <header>
@@ -566,6 +727,101 @@
     </div>
 
     <script>
+        // Wallet Connection
+        let walletAddress = null;
+        const walletBtn = document.getElementById('walletBtn');
+        const walletText = document.getElementById('walletText');
+
+        async function connectWallet() {
+            if (typeof window.ethereum === 'undefined') {
+                showToast('error', '未检测到 MetaMask', '请先安装 MetaMask 钱包插件');
+                setTimeout(() => {
+                    window.open('https://metamask.io/download/', '_blank');
+                }, 2000);
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                if (accounts.length > 0) {
+                    walletAddress = accounts[0];
+                    updateWalletUI();
+                    showToast('success', '钱包已连接', formatAddress(walletAddress));
+                }
+            } catch (error) {
+                if (error.code === 4001) {
+                    showToast('error', '连接取消', '您拒绝了钱包连接请求');
+                } else {
+                    showToast('error', '连接失败', error.message);
+                }
+            }
+        }
+
+        function updateWalletUI() {
+            if (walletAddress) {
+                walletBtn.classList.add('connected');
+                walletText.textContent = formatAddress(walletAddress);
+            }
+        }
+
+        function formatAddress(address) {
+            return address.slice(0, 6) + '...' + address.slice(-4);
+        }
+
+        // Check if already connected
+        async function checkWalletConnection() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ 
+                        method: 'eth_accounts' 
+                    });
+                    if (accounts.length > 0) {
+                        walletAddress = accounts[0];
+                        updateWalletUI();
+                    }
+                } catch (error) {
+                    console.log('Wallet check failed:', error);
+                }
+
+                // Listen for account changes
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    if (accounts.length === 0) {
+                        walletAddress = null;
+                        walletBtn.classList.remove('connected');
+                        walletText.textContent = '连接钱包';
+                        showToast('error', '钱包已断开', '您的钱包连接已断开');
+                    } else {
+                        walletAddress = accounts[0];
+                        updateWalletUI();
+                        showToast('success', '钱包已切换', formatAddress(walletAddress));
+                    }
+                });
+            }
+        }
+
+        // Toast Notification
+        function showToast(type, title, message) {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toast.className = 'toast ' + type;
+            toastIcon.textContent = type === 'success' ? '✅' : '❌';
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Cat Memes Data
         const catMemes = [
             {
                 id: 1,
@@ -760,8 +1016,11 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // Initial render
-        renderMemes();
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkWalletConnection();
+            renderMemes();
+        });
     </script>
 </body>
 </html>
